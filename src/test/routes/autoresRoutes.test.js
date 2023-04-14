@@ -66,6 +66,18 @@ describe('GET em /autores', () => {
         done();
       });
   });
+
+  it('Não deve retornar uma lista de livros com autor inválido', (done) => {
+    const autorId = 999;
+    chai.request(app)
+      .get(`/autores/${autorId}/livros`)
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        expect(res.status).to.equal(404);
+        expect(res.body).to.have.property('message').eql(`id ${autorId} não encontrado`);
+        done();
+      });
+  });
 });
 
 describe('POST em /autores', () => {
